@@ -1,20 +1,21 @@
 #' @import purrr
 #' @import stats
+#' @import parallel
+#' @import furrr
 #' @importFrom magrittr %>%
+#' @importFrom "utils" "capture.output"
 #' @details
 #' Linear Regression with Little Bag of Bootstraps
 "_PACKAGE"
 
-
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
 # from https://github.com/jennybc/googlesheets/blob/master/R/googlesheets.R
-utils::globalVariables(c("."))
-
+utils::globalVariables(c(".", "fit"))
 
 #' @export
 blblm <- function(formula, data, m = 10, B = 5000) {
   data_list <- split_data(data, m)
-  estimates <- map(
+  estimates <- future_map(
     data_list,
     ~ lm_each_subsample(formula = formula, data = ., n = nrow(data), B = B))
   res <- list(estimates = estimates, formula = formula)
@@ -81,11 +82,11 @@ print.blblm <- function(x, ...) {
 #' @method sigma blblm
 sigma.blblm <- function(object, confidence = FALSE, level = 0.95, ...) {
   est <- object$estimates
-  sigma <- mean(map_dbl(est, ~ mean(map_dbl(., "sigma"))))
+  sigma <- mean(future_map_dbl(est, ~ mean(map_dbl(., "sigma"))))
   if (confidence) {
     alpha <- 1 - 0.95
     limits <- est %>%
-      map_mean(~ quantile(map_dbl(., "sigma"), c(alpha / 2, 1 - alpha / 2))) %>%
+      map_mean(~ quantile(future_map_dbl(., "sigma"), c(alpha / 2, 1 - alpha / 2))) %>%
       set_names(NULL)
     return(c(sigma = sigma, lwr = limits[1], upr = limits[2]))
   } else {
@@ -126,8 +127,8 @@ predict.blblm <- function(object, new_data, confidence = FALSE, level = 0.95, ..
   X <- model.matrix(reformulate(attr(terms(object$formula), "term.labels")), new_data)
   if (confidence) {
     map_mean(est, ~ map_cbind(., ~ X %*% .$coef) %>%
-      apply(1, mean_lwr_upr, level = level) %>%
-      t())
+               apply(1, mean_lwr_upr, level = level) %>%
+               t())
   } else {
     map_mean(est, ~ map_cbind(., ~ X %*% .$coef) %>% rowMeans())
   }
@@ -140,13 +141,31 @@ mean_lwr_upr <- function(x, level = 0.95) {
 }
 
 map_mean <- function(.x, .f, ...) {
-  (map(.x, .f, ...) %>% reduce(`+`)) / length(.x)
+  (future_map(.x, .f, ...) %>% reduce(`+`)) / length(.x)
 }
 
 map_cbind <- function(.x, .f, ...) {
-  map(.x, .f, ...) %>% reduce(cbind)
+  future_map(.x, .f, ...) %>% reduce(cbind)
 }
 
 map_rbind <- function(.x, .f, ...) {
-  map(.x, .f, ...) %>% reduce(rbind)
+  future_map(.x, .f, ...) %>% reduce(rbind)
 }
+
+
+# List of things to do
+# ---Required---
+# 1. More than one CPU
+# ADDED: number of cores for parallelization
+# completed using futures and plan (specify that USERS must plan out workers themselves)
+# 2. Specify list of datasets => load in workers
+# 3. Convert functions to C++
+# 4. Logistic regression, KNN
+# 5. Tests and documentation
+# 6. Vignette
+# ---Added by me---
+# 1. Linear Regression Hypotheses Decisions for Coefficients
+# 2. PCA pre-processing
+# - outputting eigenvalues and eigenvectors
+# - outputting total variance of principal components
+# - graph with bend
