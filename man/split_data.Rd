@@ -2,10 +2,17 @@
 % Please edit documentation in R/blblm.R
 \name{split_data}
 \alias{split_data}
-\title{split data into m parts of approximated equal sizes}
+\title{Splitting data
+split data into m parts of approximated equal sizes}
 \usage{
 split_data(data, m)
 }
+\arguments{
+\item{data}{Dataframe containing data you want to split}
+
+\item{m}{Number of parts you want to split data into}
+}
 \description{
+Splitting data
 split data into m parts of approximated equal sizes
 }

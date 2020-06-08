@@ -2,10 +2,15 @@
 % Please edit documentation in R/blblm.R
 \name{blbcoef}
 \alias{blbcoef}
-\title{compute the coefficients from fit}
+\title{Blblm Coefficients
+compute the coefficients from fit}
 \usage{
 blbcoef(fit)
 }
+\arguments{
+\item{fit}{Blblm object}
+}
 \description{
+Blblm Coefficients
 compute the coefficients from fit
 }

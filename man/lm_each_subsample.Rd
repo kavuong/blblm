@@ -2,10 +2,21 @@
 % Please edit documentation in R/blblm.R
 \name{lm_each_subsample}
 \alias{lm_each_subsample}
-\title{compute the estimates}
+\title{Linear Regression on Subsamples
+Compute the estimates}
 \usage{
 lm_each_subsample(formula, data, n, B)
 }
+\arguments{
+\item{formula}{Formula of linear regression}
+
+\item{data}{Subsample data}
+
+\item{n}{Number of rows in data}
+
+\item{B}{The number of Bootstrap trials you want to run on each subsample}
+}
 \description{
-compute the estimates
+Linear Regression on Subsamples
+Compute the estimates
 }

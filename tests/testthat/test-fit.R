@@ -1,5 +1,18 @@
-library(furrr)
 test.cores <- blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
+# code you can run in a separate R script for testing:
+
+# setting up files to use - multiple files
+# dir.create("files", showWarnings = FALSE)
+# set.seed(141)
+# 1:10 %>% walk(function(i) {
+#   dt <- tibble(x = rnorm(5), y = rnorm(5))
+#   write_csv(dt, file.path("files", sprintf("file%02d.csv", i)))
+# })
+
+# setting up files to use - single file that puts together all multiple files
+# write.csv(file_names %>% lapply(read_csv) %>% bind_rows, 'files/total.csv')
+
+file_names <- file.path("files", list.files("files"))[1:10]
 
 test_that("multiple cores for blblm", {
   plan(multiprocess, workers = 4)
@@ -30,3 +43,20 @@ test_that("multiple cores for confint with confidence", {
   plan(sequential)
   expect_identical(confint_bef, confint_aft)
 })
+
+test_that("BLBLM multiple files - function blblm_multi_file", {
+  # more efficient to use parallelization
+  plan(multiprocess, workers = 4)
+  # testing function
+  fit_multi <- blblm_multi_file(y ~ x, file_names)
+  plan(sequential)
+  expect_is(fit_multi, "blblm")
+})
+
+test_that("BLBLM single file - blblm_single_file function", {
+  fit_single <- blblm_single_file(y ~ x, '../../files/total.csv')
+  expect_is(fit_single, "blblm")
+})
+
+# removing test directory
+unlink("files", recursive = T)

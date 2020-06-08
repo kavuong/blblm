@@ -2,10 +2,19 @@
 % Please edit documentation in R/blblm.R
 \name{lm_each_boot}
 \alias{lm_each_boot}
-\title{compute the regression estimates for a blb dataset}
+\title{Linear Regression for a Bootstrap Trial
+Compute the linear regression estimates for a blb dataset}
 \usage{
 lm_each_boot(formula, data, n)
 }
+\arguments{
+\item{formula}{Formula of linear regression}
+
+\item{data}{Subsample data}
+
+\item{n}{Number of rows in data}
+}
 \description{
-compute the regression estimates for a blb dataset
+Linear Regression for a Bootstrap Trial
+Compute the linear regression estimates for a blb dataset
 }

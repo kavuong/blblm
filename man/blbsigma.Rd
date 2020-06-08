@@ -2,10 +2,15 @@
 % Please edit documentation in R/blblm.R
 \name{blbsigma}
 \alias{blbsigma}
-\title{compute sigma from fit}
+\title{Blblm Standard Deviation
+compute sigma from fit}
 \usage{
 blbsigma(fit)
 }
+\arguments{
+\item{fit}{Blblm object}
+}
 \description{
+Blblm Standard Deviation
 compute sigma from fit
 }
