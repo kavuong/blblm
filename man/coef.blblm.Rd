@@ -9,6 +9,8 @@ Returns regression coefficients of blblm object calculated from averaging out al
 }
 \arguments{
 \item{object}{Blblm object you want to find coefficients of}
+
+\item{...}{Any other arguments}
 }
 \description{
 Coefficients of blblm

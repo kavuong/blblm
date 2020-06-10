@@ -9,6 +9,8 @@ Outputs the formula associated with a blblm object}
 }
 \arguments{
 \item{x}{Blblm object}
+
+\item{...}{Any other arguments}
 }
 \description{
 Printing blblm Object

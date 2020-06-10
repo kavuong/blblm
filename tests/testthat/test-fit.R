@@ -37,7 +37,7 @@ test_that("multiple cores for confint", {
 })
 
 test_that("multiple cores for confint with confidence", {
-  confint_bef <- predict(test.cores, data.frame(wt = c(2.5, 3), hp = c(150, 170)),confidence = T)
+  confint_bef <- predict(test.cores, data.frame(wt = c(2.5, 3), hp = c(150, 170)), confidence = T)
   plan(multiprocess, workers = 4)
   confint_aft <- predict(test.cores, data.frame(wt = c(2.5, 3), hp = c(150, 170)), confidence = T)
   plan(sequential)
@@ -54,7 +54,7 @@ test_that("BLBLM multiple files - function blblm_multi_file", {
 })
 
 test_that("BLBLM single file - blblm_single_file function", {
-  fit_single <- blblm_single_file(y ~ x, '../../files/total.csv')
+  fit_single <- blblm_single_file(y ~ x, "../../files/total.csv")
   expect_is(fit_single, "blblm")
 })
 

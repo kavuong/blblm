@@ -8,13 +8,15 @@ Outputs predictions based on coefficient estimates of blblm object}
 \method{predict}{blblm}(object, new_data, confidence = FALSE, level = 0.95, ...)
 }
 \arguments{
+\item{object}{A blblm object}
+
 \item{new_data}{A data frame object that contains the new data you would like to predict on}
 
 \item{confidence}{Boolean indicating whether you want confidence intervals or not. By default it is False}
 
 \item{level}{Significance level of your confidence intervals (if applicable)}
 
-\item{fit}{A blblm object}
+\item{...}{Any other arguments}
 }
 \description{
 Predicting blblm

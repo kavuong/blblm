@@ -13,6 +13,8 @@ Returns standard deviation estimate and confidence interval estimate based on gi
 \item{confidence}{Boolean indicating whether you want just standard deviation (False) or also the lower + upper confidence intervals}
 
 \item{level}{If confidence is True, this level indicates the significance level of your confidence intervals}
+
+\item{...}{Any other arguments}
 }
 \description{
 Standard deviation/confidence intervals of blblm model

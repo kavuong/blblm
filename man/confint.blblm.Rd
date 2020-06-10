@@ -13,6 +13,8 @@ Returns regression coefficients of blblm object calculated from averaging out al
 \item{parm}{Attributes that you want to find significance level of. By default is NULL}
 
 \item{level}{Significance level of your confidence intervals}
+
+\item{...}{Any other arguments}
 }
 \description{
 Confidence intervals of blblm

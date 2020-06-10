@@ -235,6 +235,7 @@ blbsigma <- function(fit) {
 #' Outputs the formula associated with a blblm object
 #'
 #' @param x Blblm object
+#' @param ... Any other arguments
 #' @export
 #' @examples
 #' fit <- blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
@@ -250,7 +251,7 @@ print.blblm <- function(x, ...) {
 #' @param object Blblm object you would like to read (linear regression)
 #' @param confidence Boolean indicating whether you want just standard deviation (False) or also the lower + upper confidence intervals
 #' @param level If confidence is True, this level indicates the significance level of your confidence intervals
-#'
+#' @param ... Any other arguments
 #' @export
 #' @examples
 #' fit <- blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
@@ -274,6 +275,7 @@ sigma.blblm <- function(object, confidence = FALSE, level = 0.95, ...) {
 #' Returns regression coefficients of blblm object calculated from averaging out all coefficient estimates
 #'
 #' @param object Blblm object you want to find coefficients of
+#' @param ... Any other arguments
 #' @export
 #' @examples
 #' fit <- blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
@@ -290,6 +292,7 @@ coef.blblm <- function(object, ...) {
 #' @param object Blblm object you want to find coefficients of
 #' @param parm Attributes that you want to find significance level of. By default is NULL
 #' @param level Significance level of your confidence intervals
+#' @param ... Any other arguments
 #' @export
 #' @examples
 #' fit <- blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
@@ -315,10 +318,11 @@ confint.blblm <- function(object, parm = NULL, level = 0.95, ...) {
 #' Predicting blblm
 #' Outputs predictions based on coefficient estimates of blblm object
 #'
-#' @param fit A blblm object
+#' @param object A blblm object
 #' @param new_data A data frame object that contains the new data you would like to predict on
 #' @param confidence Boolean indicating whether you want confidence intervals or not. By default it is False
 #' @param level Significance level of your confidence intervals (if applicable)
+#' @param ... Any other arguments
 #'
 #' @export
 #' @examples
@@ -343,10 +347,12 @@ mean_lwr_upr <- function(x, level = 0.95) {
   c(fit = mean(x), quantile(x, c(alpha / 2, 1 - alpha / 2)) %>% set_names(c("lwr", "upr")))
 }
 
+#' @param ... Any other arguments
 map_mean <- function(.x, .f, ...) {
   (future_map(.x, .f, ...) %>% reduce(`+`)) / length(.x)
 }
 
+#' @param ... Any other arguments
 map_cbind <- function(.x, .f, ...) {
   future_map(.x, .f, ...) %>% reduce(cbind)
 }
