@@ -347,12 +347,10 @@ mean_lwr_upr <- function(x, level = 0.95) {
   c(fit = mean(x), quantile(x, c(alpha / 2, 1 - alpha / 2)) %>% set_names(c("lwr", "upr")))
 }
 
-#' @param ... Any other arguments
 map_mean <- function(.x, .f, ...) {
   (future_map(.x, .f, ...) %>% reduce(`+`)) / length(.x)
 }
 
-#' @param ... Any other arguments
 map_cbind <- function(.x, .f, ...) {
   future_map(.x, .f, ...) %>% reduce(cbind)
 }

@@ -1,0 +1,36 @@
+---
+title: "Kevin-Vuong-Blblm-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Kevin-Vuong-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(blblm)
+```
+
+For this package, I have made a few modifications to the base package blblm:
+
+# Support for Parallelization
+
+Every call to `map` or its variants now calls the future version, which tells R to plan its upcoming workload among all of the available workers. Notably, the user would have to call `plan` or create their own cluster prior to using the blblm functions in order for parallelization to be fully integrated. The map functions written by the package like "map_rbind", "map_mean" etc were not optimized themselves, but their calls to the base `map` function were optimized for parallelization using `future_map`. 
+
+# Support for Single/Multiple Data Files(Linear Regression)
+Multiple data files can be passed in as a vector to the function `blblm_multi_file` (`blblm_single_file` for single files). Each data file would represent a single subsample for Bootstrap purposes. Data files should all be in CSV format.   
+
+# Added Support for Logistic Regression
+The previous iteration of blblm only worked for linear regression. Support for logistic regression has now been added, and users can generate their own coefficient estimates with a call to `blblm_log`. For each of the "child functions" like `lm_each_subsample`, `lm_each_boot` and `lm1`, I created the logisitic version of those functions `log_each_subsample`, `log_each_boot` and `log1` that resemble the original so as not to distract future package developers and viewers.
+
+
+# Extensive Documentation and Testing
+Each exported function is complete with documentation on its function, necessary/unnecessary parameters, return values and results. The tests for functions mostly involve type checks due to the random nature of Bootstrap, as well as generating test files for the multiple and single file tests.
+
